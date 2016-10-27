@@ -1,7 +1,7 @@
 A Tiny progress bar
 ===
 
-Because 30+ files for a command line is just too much, here is a 30 lines implementation (could really be done in < 5 but it's already hard enough to follow). 
+Because 30+ files for a command line is just too much, here is a 30 lines implementation (could really be done in < 5 but it's already hard enough to follow). <br/>
 Thread free (not necessarily thread-safe though), instanciation free, cost almost free, performance... you're supposed to use that on things that take time, don't come and complain for a few extra cycles. 
 
 Use as follow:
@@ -13,8 +13,9 @@ require "tiny_progress_bar"
 end
 ```
 
-Uses backspaces to erase the previous input and write above it, so don't print stuffs on the standard exit while it's working or you'll mess everything up.
-This is not a one-fits-all ultimate overpowered progress bar to make your morning coffee and your car faster, it's just a pretty thing to slam on waiting times at low cost.
+Uses backspaces to erase the previous input and write above it, so don't print stuffs on the standard exit while it's working or you'll mess everything up. Also avoid writing before, your text may end up erased.
+
+This piece of code is not meant to be a one-fits-all ultimate integrated enterprise-level progress bar solution, it's just a pretty thing to slam on waiting times at low cost.<br/>
 Google "ruby progress bar" for more feature complete and possibly less hacky solutions. 
 ______
 Customization
@@ -26,30 +27,38 @@ TinyProgressBar::print(current, max, filled: "@", empty: ".", size: 10)
 
 Available options
 ---
-* **size**
+* **size** 
    Integer: determines the number of filled and empty items to display between the opening and closing sequences. Defaults to 100.
 
-* **filled**
+* **filled** 
    String: the appearance of the filled part of the progress bar. Defaults to "\*". Try to match _empty_ in size or you'll get funny results. 
 
-* **empty**
+* **empty** 
    String: the appearance of the part of the progress bar to be filled. Defaults to " " (empty space). See above. 
 
-* **precision**
+* **precision** 
    Integer: the number of decimals to show in the figure based counter next to the bar. Defaults to 0. 
 
-* **message**
+* **message** 
    String: message to show when the progress bar reach completion. Default: "Complete!"
 
-* **opener**
+* **opener** 
    String: Appearance of the opening sequence. Default: "["
 
-* **closer**
+* **closer** 
    String: Appearance of the closing sequence. Default: "]"
+   
+   
+___
+
 
 Compatibility
 ===
 The code is based on printing backspaces to erase the previous progress bar. If for some reason that's not how it works on your system, get something else.
+
+
+___
+
 
 Licence
 ===
