@@ -37,7 +37,6 @@ TinyProgressBar::print(:reset) # alternatively reset: true
 	TinyProgressBar::print(max: 100) 
 end # The world is safe, thanks TinyProgressBar!
 ```
-The reset button resets the bar to it's original state. 
 ______
 
 Customization
