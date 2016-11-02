@@ -1,55 +1,61 @@
 A Tiny progress bar
 ===
 
-Because 30+ files for a command line is just too much, here is a 30 lines implementation (could really be done in < 5 but it's already hard enough to follow). <br/>
-Thread free (not necessarily thread-safe though), instanciation free, cost almost free, performance... you're supposed to use that on things that take time, don't come and complain for a few extra cycles. 
+Because 30+ files for a command line is just too much, here is a 40 lines implementation (could really be done in < 15 but it's already hard enough to follow). <br/>
+Thread free (not thread-safe though), instanciation free, cost almost free, performance... you're supposed to use that on things that take time, don't come and complain for a few extra cycles. 
 
 Use as follow:
 ```ruby
 require "tiny_progress_bar"
 
 25.times do |i|
-	TinyProgressBar::print(i, 24)
+	TinyProgressBar::print(max: 25)
+	sleep 0.05
 end
 ```
 
-Uses backspaces to erase the previous input and write above it, so don't print stuffs on the standard exit while it's working or you'll mess everything up. Also avoid writing before, your text may end up erased.
+Uses backspaces to erase the previous input and write above it, so don't print stuffs on the `:out` strean while it's working or you'll mess everything up. Use the `:before` and `:after` options to set text around the bar.
 
 This piece of code is not meant to be a one-fits-all ultimate integrated enterprise-level progress bar solution, it's just a pretty thing to slam on waiting times at low cost.<br/>
 Google "ruby progress bar" for more feature complete and possibly less hacky solutions. 
+
+Caution
+---
+This module is neither thread-safe nor exception-safe, you've been warned.
+
 ______
+
 Customization
 ===
-There's a few of customization options available, they go in a hash like this:
+There's a few of customization options available, they go in the hash like this:
 ```ruby
-TinyProgressBar::print(current, max, filled: "@", empty: ".", size: 10)
+TinyProgressBar::print(max: 100, filled: "@", empty: ".", size: 10)
 ```
 
 Available options
 ---
-* **size** 
-   Integer: determines the number of filled and empty items to display between the opening and closing sequences. Defaults to 100.
+* **size**:			_Integer_, determines the number of filled and empty items to display between the opening and closing sequences. Defaults to 100.
 
-* **filled** 
-   String: the appearance of the filled part of the progress bar. Defaults to "\*". Try to match _empty_ in size or you'll get funny results. 
+* **filled**:		_String_, the appearance of the filled part of the progress bar. Defaults to "\*". Try to match _empty_ in size or you'll get funny results. 
 
-* **empty** 
-   String: the appearance of the part of the progress bar to be filled. Defaults to " " (empty space). See above. 
+* **empty**:		_String_, the appearance of the part of the progress bar to be filled. Defaults to " " (empty space). See above. 
 
-* **precision** 
-   Integer: the number of decimals to show in the figure based counter next to the bar. Defaults to 0. 
+* **precision**:	_Integer_, the number of decimals to show in the figure based counter next to the bar. Defaults to 0. 
 
-* **message** 
-   String: message to show when the progress bar reach completion. Default: "Complete!"
+* **message**:		_String_, message to show when the progress bar reach completion. Default: "Complete!"
 
-* **opener** 
-   String: Appearance of the opening sequence. Default: "["
+* **opener**:		_String_, Appearance of the opening sequence. Default: "["
 
-* **closer** 
-   String: Appearance of the closing sequence. Default: "]"
+* **closer**:		_String_, Appearance of the closing sequence. Default: "]"
+
+* **before**:		_String_, Message to display before the progress bar
+
+* **after**:		_String_, Message to display after the progress bar
+
+* **out**:			_IO_, IO stream to send the bar to. `$stdout` by default
    
    
-___
+______
 
 
 Compatibility
@@ -57,7 +63,7 @@ Compatibility
 The code is based on printing backspaces to erase the previous progress bar. If for some reason that's not how it works on your system, get something else.
 
 
-___
+______
 
 
 Licence

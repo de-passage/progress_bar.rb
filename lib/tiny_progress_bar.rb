@@ -1,30 +1,41 @@
 module TinyProgressBar 
-	def self.print current, max, options = {} 
-		current = current.to_i
-		max = max.to_i
-		options = { 
+	def self.print options = {} 
+		options[:count] = 0 if @options && @options[:max] != options[:max]
+		(@options ||= { 
+			count: 0,
 			size: 100, 
 			filled: '*', 
 			empty: ' ', 
 			precision: 0, 
 			message: "Complete!", 
 			opener: "[", 
-			closer: "]" 
-		}.merge options
-		size = options[:size]
-		filled = options[:filled]
-		empty = options[:empty]
-		opener = options[:opener]
-		closer = options[:closer]
-		precision = options[:precision]
-		max_length = ("#{opener}" + (filled.length > empty.length ? filled : empty) * size + "#{closer} 100#{precision > 0 ? "." + "0" * precision : ""} (#{max}/#{max})").length
-		ratio = current.to_f / max.to_f
+			closer: "]",
+			last: nil,
+			out: $stdout
+		}).merge! options do |_, o, n| n.nil? ? o : n end
+		@options[:before] = options[:before]
+		@options[:after] = options[:after]
+		count = (@options[:count] = @options[:count] ? @options[:count] + 1 : 1)
+		size = @options[:size]
+		filled = @options[:filled]
+		empty = @options[:empty]
+		opener = @options[:opener]
+		closer = @options[:closer]
+		precision = @options[:precision]
+		max = @options[:max]
+		ratio = count.to_f / max.to_f
 		percentage = precision ? (ratio * 100.0).round(precision) : (ratio * 100.0)
 		filled_size = (ratio * size).floor.to_i
 		empty_size = size - filled_size
-
-		$stdout.print "\b" * (max_length + 1)
-		$stdout.print "#{opener}" + filled * filled_size + empty * empty_size + "#{closer} #{percentage}% (#{current}/#{max})"
-		puts " #{options[:message]}" if current == max 
+		@options[:out].print "\b" * (@options[:last] || 0) 
+		str = "#{(@options[:before] || "")}#{opener}" + filled * filled_size + empty * empty_size + "#{closer} #{percentage}% (#{count}/#{max})#{(@options[:after] || "")}"
+		@options[:out].print str
+		@options[:last] = str.length
+		if count == max 
+			puts " #{@options[:message]}" 
+			@options[:count] = 0
+			@options[:last] = 0
+		end
+		@options
 	end
 end
