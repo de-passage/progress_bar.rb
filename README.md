@@ -23,6 +23,21 @@ Caution
 ---
 This module is neither thread-safe nor exception-safe, you've been warned.
 
+Saving the day
+---
+If everything turns to brown goo and you need to restart the bar in the middle, hit the reset button: 
+```ruby
+42.times do |i|
+	TinyProgressBar::print(max: 100) 
+end # Oh no ! My loop didn't reach the end
+
+TinyProgressBar::print(:reset) # alternatively reset: true
+
+100.times do |i|
+	TinyProgressBar::print(max: 100) 
+end # The world is safe, thanks TinyProgressBar!
+```
+The reset button resets the bar to it's original state. 
 ______
 
 Customization

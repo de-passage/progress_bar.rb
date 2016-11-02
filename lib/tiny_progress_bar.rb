@@ -1,6 +1,6 @@
 module TinyProgressBar 
 	def self.print options = {} 
-		options[:count] = 0 if @options && @options[:max] != options[:max]
+		return @options = nil if options == :reset or options[:reset]
 		(@options ||= { 
 			count: 0,
 			size: 100, 
