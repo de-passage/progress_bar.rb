@@ -1,7 +1,7 @@
 A Tiny progress bar
 ===
 
-Because 30+ files for a command line is just too much, here is a 40 lines implementation (could really be done in < 15 but it's already hard enough to follow). <br/>
+Because 30+ files for a command line progress bar is just too much, here is a 40 lines implementation (could really be done in < 15 but it's already hard enough to follow). <br/>
 Thread free (not thread-safe though), instanciation free, cost almost free, performance... you're supposed to use that on things that take time, don't come and complain for a few extra cycles. 
 
 Use as follow:
@@ -37,7 +37,6 @@ TinyProgressBar::print(:reset) # alternatively reset: true
 	TinyProgressBar::print(max: 100) 
 end # The world is safe, thanks TinyProgressBar!
 ```
-The reset button resets the bar to it's original state. 
 ______
 
 Customization
